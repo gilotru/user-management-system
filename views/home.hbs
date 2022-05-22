@@ -1,3 +1,10 @@
+<div class="row">
+  <div class="col-6"><h1>Users</h1></div>
+  <div class="col-6 d-flex justify-content-end">
+    <a href="/adduser" type="button" class="btn btn-primary align-self-center btn-dark">+ add user</a>
+  </div>
+</div>
+
 <table class="table table-borderd">
   <thead class="thead-dark">
     <tr>
@@ -6,21 +13,23 @@
       <th scope="col">Last Name</th>
       <th scope="col">Email</th>
       <th scope="col">Phone Number</th>
-      <th scope="col" class="text-end">Action</th>
+      <th scope="col" class="text-end d-flex align-self-left">Action</th>
     </tr>
   </thead>
   <tbody>
+    {{#each rows}}
     <tr>
-      <th scope="row">#</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>@mdo</td>
+      <th scope="row">{{this.id}}</th>
+      <td>{{this.first_name}}</td>
+      <td>{{this.last_name}}</td>
+      <td>{{this.email}}</td>
+      <td>{{this.phone_number}}</td>
       <td class="text-end">
           <a href="#" type="button" class="btn btn-light bnt-small"><i class="bi bi-eye">view</i></a>
           <a href="#" type="button" class="btn btn-light bnt-small"><i class="bi bi-pencil">edit</i></a>
           <a href="#" type="button" class="btn btn-light bnt-small"><i class="bi bi-person-x">delete</i></a>
       </td>
     </tr>
+    {{/each}}
   </tbody>
 </table>

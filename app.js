@@ -33,14 +33,13 @@ const pool = mysql.createPool({
     database        : process.env.DB_NAME
 });
 
+//DB connection
 pool.getConnection((err, Connection) =>{
  if (err) throw err; //not connected
  console.log('connected as ID', Connection.threadId)
 });
 
-//routes
-app.get('', (req, res) =>{
-    res.render('home');
-});
+const routes = require('./server/route/user');
+app.use('/', routes);
 
 app.listen(port, () => console.log(`listening on port ${port}`));
