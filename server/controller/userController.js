@@ -35,7 +35,7 @@ pool.getConnection((err, Connection) =>{
     if (err) throw err; //not connected
     console.log('connected as ID', Connection.threadId);
     let searchTerm = req.body.search;
-    Connection.query('SELECT * FROM user_table WHERE first_name LIKE ? OR last_name LIKE ?', ['%'+ searchTerm +'%'], (err, rows)=>{
+    Connection.query('SELECT * FROM user_table WHERE first_name LIKE ? OR last_name LIKE ?', ['%'+ searchTerm +'%', '%'+ searchTerm +'%'], (err, rows)=>{
         //when connection is done
         Connection.release();
    
@@ -48,7 +48,31 @@ pool.getConnection((err, Connection) =>{
    });
 }
 
-// add new user
 exports.form = (req, res)=>{
-    res.render('add_user');    
+    res.render('add-user');
+}
+
+// add new user
+exports.create = (req, res)=>{
+    //DB connection
+    const {first_name, last_name, email, phone_number, comment} = req.body;
+    pool.getConnection((err, Connection) =>{
+
+        if (err) throw err; //not connected
+        console.log('connected as ID', Connection.threadId);
+        Connection.query('INSERT INTO  user_table SET first_name = ?, last_name = ?, email = ?, phone_number = ?, comment = ?', [first_name,last_name, email, phone_number, comment], (err, rows)=>{
+            //when connection is done
+            Connection.release();
+            if(!err){
+                res.render('add-user', {alert: 'user edit successfuly.'});
+            }else{
+                console.log(err);
+            }
+        });
+   });
+}
+
+// edit user
+exports.edit = (req, res)=>{
+    res.render('edit-user');
 }
