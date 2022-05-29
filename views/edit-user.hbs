@@ -5,6 +5,15 @@
   </ol>
 </nav>
 
+{{#if alert}}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{alert}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
+</div>
+{{/if}}
+
+{{#each rows}}
 <form class="row g-3 needs-validation" method="POST" action="/edituser/{{this.id}}" novalidation>
   {{> user-form}}
 </form>
+{{/each}}
