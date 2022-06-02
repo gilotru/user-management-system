@@ -20,8 +20,8 @@ pool.getConnection((err, Connection) =>{
      Connection.release();
 
      if(!err){
-         let removedUser = re.query.removed;
-         res.render('home', {rows});
+         let removedUser = req.query.removed;
+         res.render('home', {rows, removedUser });
      }else{
          console.log(err);
      }
@@ -82,7 +82,6 @@ exports.edit = (req, res)=>{
         Connection.query('SELECT * FROM user_table WHERE id = ?', [req.params.id], (err, rows)=>{
             //when connection is done
             Connection.release();
-    
             if(!err){
                 res.render('edit-user', {rows});
             }else{
@@ -132,7 +131,7 @@ exports.delete = (req, res)=>{
     pool.getConnection((err, Connection) =>{
         if (err) throw err; //not connected
         console.log('connected as ID', Connection.threadId);
-        Connection.query('DELETE FROM user_table SET status = ? WHERE id = ?', ['removed', req.params.id], (err, rows)=>{
+        Connection.query('UPDATE user_table SET status = ? WHERE id = ?', ['removed', req.params.id], (err, rows)=>{
             //when connection is done
             Connection.release();
 
@@ -148,19 +147,18 @@ exports.delete = (req, res)=>{
 
 // view all user
 exports.viewall = (req, res)=>{
-    //DB connection
-        pool.getConnection((err, Connection) =>{
-            if (err) throw err; //not connected
-            console.log('connected as ID', Connection.threadId);
-            Connection.query('SELECT * FROM user_table WHERE id = ?', [req.params.id], (err, rows)=>{
-                //when connection is done
-                Connection.release();
-        
-                if(!err){
-                    res.render('view-user', {rows});
-                }else{
-                    console.log(err);
-                }
-            });
+//DB connection
+    pool.getConnection((err, Connection) =>{
+        if (err) throw err; //not connected
+        console.log('connected as ID', Connection.threadId);
+        Connection.query('SELECT * FROM user_table WHERE id = ?', [req.params.id], (err, rows)=>{
+            //when connection is done
+            Connection.release();
+            if(!err){
+                res.render('view-user', {rows});
+            }else{
+                console.log(err);
+            }
         });
-    }
+    });
+}
