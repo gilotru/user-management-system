@@ -36,16 +36,20 @@ pool.getConnection((err, Connection) =>{
     if (err) throw err; //not connected
     console.log('connected as ID', Connection.threadId);
     let searchTerm = req.body.search;
-    Connection.query('SELECT * FROM user_table WHERE first_name LIKE ? OR last_name LIKE ?', ['%'+ searchTerm +'%', '%'+ searchTerm +'%'], (err, rows)=>{
-        //when connection is done
-        Connection.release();
-   
-        if(!err){
-            res.render('home', {rows});
-        }else{
-            console.log(err);
-        }
-    });
+    if(!searchTerm === ''){
+        Connection.query('SELECT * FROM user_table WHERE first_name LIKE ? OR last_name LIKE ?', ['%'+ searchTerm +'%', '%'+ searchTerm +'%'], (err, rows)=>{
+            //when connection is done
+            Connection.release();
+    
+            if(!err){
+                res.render('home', {rows});
+            }else{
+                console.log(err);
+            }
+        });
+    }else{
+        
+    }
    });
 }
 

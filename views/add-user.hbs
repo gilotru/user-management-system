@@ -12,8 +12,8 @@
 </div>
 {{/if}}
 
-<form class="row g-3 needs-validation" method="POST" action="/adduser" novalidation>
 {{#each rows}}
+  <form class="row g-3 needs-validation" method="POST" action="/adduser" novalidation></form>
   {{> user-form}}
 {{/each}}
 </form>
